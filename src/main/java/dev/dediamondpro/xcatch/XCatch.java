@@ -15,6 +15,8 @@
 
 package dev.dediamondpro.xcatch;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import dev.dediamondpro.xcatch.commands.XCatchCommand;
 import dev.dediamondpro.xcatch.commands.XCatchTabCompleter;
 import dev.dediamondpro.xcatch.data.PersistentData;
@@ -41,6 +43,7 @@ public final class XCatch extends JavaPlugin {
     public static final HashMap<Material, Integer> rareOres = new HashMap<>();
     public static final HashMap<Integer, ArrayList<String>> commands = new HashMap<>();
     public static int metricFlags = 0;
+    private static TaskScheduler scheduler;
 
     private NamespacedKey actionDataKey;
 
@@ -75,6 +78,8 @@ public final class XCatch extends JavaPlugin {
         if (config.getBoolean("check-update"))
             Utils.checkForUpdate();
 
+        scheduler = UniversalScheduler.getScheduler(this);
+
         if (new File(getDataFolder().getAbsolutePath() + "/data.json.gz").exists())
             PersistentData.loadData(getDataFolder().getAbsolutePath() + "/data.json.gz");
 
@@ -102,6 +107,10 @@ public final class XCatch extends JavaPlugin {
         PersistentData.saveData(getDataFolder().getAbsolutePath() + "/data.json.gz");
     }
 
+    public static TaskScheduler getScheduler() {
+        return scheduler;
+    }
+    
     public NamespacedKey getActionDataKey() {
         return actionDataKey;
     }
